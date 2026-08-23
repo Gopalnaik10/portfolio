@@ -52,10 +52,13 @@ class AuthService:
         if not user:
             return False, "Authentication session expired"
 
+        if not current_password:
+            return False, "Current password is required"
+
         if not user.check_password(current_password):
             return False, "Current password is incorrect"
 
-        if len(new_password) < 8:
+        if not new_password or len(new_password) < 8:
             return False, "New password must be at least 8 characters long"
 
         user.set_password(new_password)
@@ -65,3 +68,91 @@ class AuthService:
         ))
         db.session.commit()
         return True, "Password successfully updated"
+
+    @staticmethod
+    def change_email(current_password: str, new_email: str) -> tuple[bool, str, dict]:
+        user = AuthService.get_current_user()
+        if not user:
+            return False, "Authentication session expired", {}
+
+        if not current_password:
+            return False, "Current password is required to verify identity", {}
+
+        if not user.check_password(current_password):
+            return False, "Current password is incorrect", {}
+
+        from backend.utils.validators import validate_email_address
+        clean_email = (new_email or '').strip().lower()
+        if not clean_email or not validate_email_address(clean_email):
+            return False, "Please provide a valid email address", {}
+
+        # Prevent duplicate email conflict
+        existing = AdminUser.query.filter(AdminUser.email == clean_email, AdminUser.id != user.id).first()
+        if existing:
+            return False, "This email address is already in use", {}
+
+        old_email = user.email
+        user.email = clean_email
+        session['admin_email'] = clean_email
+
+        db.session.add(ActivityLog(
+            action_type="ADMIN_EMAIL_CHANGED",
+            description=f"Admin email updated from {old_email} to {clean_email}"
+        ))
+        db.session.commit()
+        return True, "Email successfully updated", user.to_dict()
+
+    @staticmethod
+    def update_credentials(current_password: str, new_email: str = None, new_password: str = None) -> tuple[bool, str, dict]:
+        user = AuthService.get_current_user()
+        if not user:
+            return False, "Authentication session expired", {}
+
+        if not current_password:
+            return False, "Current password is required to verify identity", {}
+
+        if not user.check_password(current_password):
+            return False, "Current password is incorrect", {}
+
+        from backend.utils.validators import validate_email_address
+        changes_made = []
+
+        # Handle Email Update
+        if new_email:
+            clean_email = new_email.strip().lower()
+            if clean_email != user.email:
+                if not validate_email_address(clean_email):
+                    return False, "Please provide a valid email address", {}
+                existing = AdminUser.query.filter(AdminUser.email == clean_email, AdminUser.id != user.id).first()
+                if existing:
+                    return False, "This email address is already in use", {}
+                old_email = user.email
+                user.email = clean_email
+                session['admin_email'] = clean_email
+                changes_made.append("email")
+
+        # Handle Password Update
+        if new_password:
+            if len(new_password) < 8:
+                return False, "New password must be at least 8 characters long", {}
+            user.set_password(new_password)
+            changes_made.append("password")
+
+        if not changes_made:
+            return False, "No changes were specified", {}
+
+        log_desc = f"Admin credentials updated ({', '.join(changes_made)})"
+        db.session.add(ActivityLog(
+            action_type="CREDENTIALS_UPDATED",
+            description=log_desc
+        ))
+        db.session.commit()
+
+        if "email" in changes_made and "password" in changes_made:
+            msg = "Email and password successfully updated"
+        elif "email" in changes_made:
+            msg = "Admin email successfully updated"
+        else:
+            msg = "Password successfully updated"
+
+        return True, msg, user.to_dict()

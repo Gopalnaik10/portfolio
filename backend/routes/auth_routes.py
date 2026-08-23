@@ -48,3 +48,30 @@ def change_password():
         return jsonify({'success': False, 'error': message}), 400
 
     return jsonify({'success': True, 'message': message})
+
+@auth_bp.route('/change-email', methods=['POST'])
+@admin_required
+def change_email():
+    data = request.get_json(silent=True) or {}
+    current_password = data.get('current_password', '')
+    new_email = data.get('new_email', '')
+
+    success, message, user_data = AuthService.change_email(current_password, new_email)
+    if not success:
+        return jsonify({'success': False, 'error': message}), 400
+
+    return jsonify({'success': True, 'message': message, 'user': user_data})
+
+@auth_bp.route('/update-credentials', methods=['POST'])
+@admin_required
+def update_credentials():
+    data = request.get_json(silent=True) or {}
+    current_password = data.get('current_password', '')
+    new_email = data.get('new_email')
+    new_password = data.get('new_password')
+
+    success, message, user_data = AuthService.update_credentials(current_password, new_email, new_password)
+    if not success:
+        return jsonify({'success': False, 'error': message}), 400
+
+    return jsonify({'success': True, 'message': message, 'user': user_data})

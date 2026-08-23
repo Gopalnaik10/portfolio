@@ -1433,24 +1433,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const loadSettingsData = async () => {
     try {
-      const res = await fetch('/api/admin/settings');
-      const json = await res.json();
-      if (!json.success) return;
+      const [settingsRes, authRes] = await Promise.all([
+        fetch('/api/admin/settings'),
+        fetch('/api/auth/me')
+      ]);
 
-      const s = json.data;
-      const setVal = (id, val) => {
-        const el = document.getElementById(id);
-        if (el) el.value = val !== undefined && val !== null ? val : '';
-      };
+      const sJson = await settingsRes.json();
+      if (sJson.success) {
+        const s = sJson.data;
+        const setVal = (id, val) => {
+          const el = document.getElementById(id);
+          if (el) el.value = val !== undefined && val !== null ? val : '';
+        };
 
-      setVal('set-site-title', s.site_title);
-      setVal('set-meta-desc', s.meta_description);
-      setVal('set-keywords', s.keywords);
+        setVal('set-site-title', s.site_title);
+        setVal('set-meta-desc', s.meta_description);
+        setVal('set-keywords', s.keywords);
 
-      const mmCb = document.getElementById('set-maintenance-mode');
-      if (mmCb) mmCb.checked = Boolean(s.maintenance_mode);
+        const mmCb = document.getElementById('set-maintenance-mode');
+        if (mmCb) mmCb.checked = Boolean(s.maintenance_mode);
 
-      setVal('set-maintenance-msg', s.maintenance_message);
+        setVal('set-maintenance-msg', s.maintenance_message);
+      }
+
+      const aJson = await authRes.json();
+      if (aJson.success && aJson.user) {
+        const emailInput = document.getElementById('admin-current-email');
+        if (emailInput) {
+          emailInput.value = aJson.user.email || '';
+          emailInput.dataset.originalEmail = aJson.user.email || '';
+        }
+      }
     } catch {
       showToast("Error loading site settings", "error");
     }
@@ -1491,44 +1504,80 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Password Change Form
+  // Security & Credentials Form
   const passwordForm = document.getElementById('password-form');
   if (passwordForm) {
     passwordForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const submitBtn = passwordForm.querySelector('button[type="submit"]');
 
-      const newPass = document.getElementById('admin-new-password').value;
-      const confPass = document.getElementById('admin-confirm-password').value;
+      const emailInput = document.getElementById('admin-current-email');
+      const curPassInput = document.getElementById('admin-current-password');
+      const newPassInput = document.getElementById('admin-new-password');
+      const confPassInput = document.getElementById('admin-confirm-password');
 
-      if (newPass !== confPass) {
-        showToast("New passwords do not match", "error");
+      const emailVal = emailInput ? emailInput.value.trim() : '';
+      const curPass = curPassInput ? curPassInput.value : '';
+      const newPass = newPassInput ? newPassInput.value : '';
+      const confPass = confPassInput ? confPassInput.value : '';
+      const origEmail = emailInput ? (emailInput.dataset.originalEmail || '') : '';
+
+      if (!curPass) {
+        showToast("Current password is required to verify your identity", "error");
+        if (curPassInput) curPassInput.focus();
         return;
       }
 
-      if (newPass.length < 8) {
-        showToast("Password must be at least 8 characters long", "error");
+      const isEmailChanging = Boolean(emailVal && (emailVal.toLowerCase() !== origEmail.toLowerCase()));
+      const isPasswordChanging = Boolean(newPass);
+
+      if (!isEmailChanging && !isPasswordChanging) {
+        showToast("No changes detected in email or password", "info");
         return;
+      }
+
+      if (isPasswordChanging) {
+        if (newPass !== confPass) {
+          showToast("New passwords do not match", "error");
+          if (confPassInput) confPassInput.focus();
+          return;
+        }
+        if (newPass.length < 8) {
+          showToast("New password must be at least 8 characters long", "error");
+          if (newPassInput) newPassInput.focus();
+          return;
+        }
       }
 
       if (submitBtn) submitBtn.disabled = true;
 
       try {
-        const res = await fetch('/api/auth/change-password', {
+        const payload = {
+          current_password: curPass,
+          new_email: isEmailChanging ? emailVal : undefined,
+          new_password: isPasswordChanging ? newPass : undefined
+        };
+
+        const res = await fetch('/api/auth/update-credentials', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ new_password: newPass })
+          body: JSON.stringify(payload)
         });
         const json = await res.json();
         if (json.success) {
-          showToast("Password updated successfully!");
-          document.getElementById('admin-new-password').value = '';
-          document.getElementById('admin-confirm-password').value = '';
+          showToast(json.message || "Credentials updated successfully!");
+          if (curPassInput) curPassInput.value = '';
+          if (newPassInput) newPassInput.value = '';
+          if (confPassInput) confPassInput.value = '';
+          if (emailInput && json.user && json.user.email) {
+            emailInput.value = json.user.email;
+            emailInput.dataset.originalEmail = json.user.email;
+          }
         } else {
-          showToast(json.error || "Password change failed", "error");
+          showToast(json.error || "Update failed", "error");
         }
       } catch {
-        showToast("Error changing password", "error");
+        showToast("Error updating credentials", "error");
       } finally {
         if (submitBtn) submitBtn.disabled = false;
       }

@@ -666,27 +666,30 @@
               <div class="card-header">
                 <div>
                   <h3 class="card-title">Security &amp; Admin Credentials</h3>
-                  <p class="card-desc">Update your administrator login password and account credentials.</p>
+                  <p class="card-desc">Update your administrator login email and password.</p>
                 </div>
               </div>
               <div class="form-grid">
                 <div class="form-group">
                   <label class="form-label" for="admin-current-email">Admin Email Address</label>
-                  <input type="email" id="admin-current-email" class="form-input" value="admin@portfolio.local" readonly style="opacity: 0.7;" />
+                  <input type="email" id="admin-current-email" class="form-input" placeholder="admin@example.com" required />
                 </div>
-                <div class="form-group"></div>
                 <div class="form-group">
-                  <label class="form-label" for="admin-new-password">New Password</label>
-                  <input type="password" id="admin-new-password" class="form-input" placeholder="Minimum 8 characters" required />
+                  <label class="form-label" for="admin-current-password">Current Password (Required)</label>
+                  <input type="password" id="admin-current-password" class="form-input" placeholder="Enter current password" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="admin-new-password">New Password (Optional)</label>
+                  <input type="password" id="admin-new-password" class="form-input" placeholder="Minimum 8 characters (Leave blank if not changing)" />
                 </div>
                 <div class="form-group">
                   <label class="form-label" for="admin-confirm-password">Confirm New Password</label>
-                  <input type="password" id="admin-confirm-password" class="form-input" placeholder="Re-enter new password" required />
+                  <input type="password" id="admin-confirm-password" class="form-input" placeholder="Re-enter new password" />
                 </div>
               </div>
               <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end;">
                 <button type="submit" class="btn btn-secondary">
-                  <span>Update Password</span>
+                  <span>Update Credentials</span>
                 </button>
               </div>
             </div>
