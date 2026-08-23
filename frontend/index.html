@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <title id="meta-title">Gopal Naik | Data Science &amp; Computer Science Student</title>
+  <meta name="description" id="meta-desc" content="Portfolio of Gopal Naik — Computer Science &amp; Engineering student specializing in Data Science. Projects in AI, Computer Vision, and Full Stack Development." />
+  <meta name="author" content="Gopal Naik" />
+  <meta name="theme-color" content="#070B14" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Gopal Naik | Data Science &amp; Computer Science Student" />
+  <meta property="og:description" content="Portfolio of Gopal Naik — Computer Science &amp; Engineering student specializing in Data Science." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/uploads/profile/gopal_profile.jpg" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23070B14'/%3E%3Ctext x='50%25' y='56%25' font-family='system-ui,sans-serif' font-size='16' font-weight='900' fill='white' text-anchor='middle' dominant-baseline='middle'%3EGN%3C/text%3E%3C/svg%3E" />
+
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <!-- Maintenance Banner -->
+  <div id="maintenance-overlay" style="display: none; position: fixed; inset: 0; background: #070B14; z-index: 9999; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem;">
+    <div style="font-size: 3rem; margin-bottom: 1rem;">🚧</div>
+    <h1 style="font-size: 2rem; margin-bottom: 0.5rem; color: #F8FAFC;">Scheduled Maintenance</h1>
+    <p id="maintenance-msg" style="color: #94A3B8; max-width: 500px; line-height: 1.6;">Portfolio updates in progress. Please check back shortly.</p>
+  </div>
+
+  <!-- Navigation Bar -->
+  <header class="site-header" id="site-header">
+    <div class="container header-container">
+
+      <!-- GN. Logo -->
+      <a href="#hero" class="logo" aria-label="Gopal Naik Portfolio Home">
+        <span>GN</span><span class="logo-dot">.</span>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="nav-links" id="nav-links" aria-label="Main navigation">
+        <a href="#hero"     class="nav-link active" data-section="hero">Home</a>
+        <a href="#about"    class="nav-link"         data-section="about">About</a>
+        <a href="#skills"   class="nav-link"         data-section="skills">Skills</a>
+        <a href="#projects" class="nav-link"         data-section="projects">Projects</a>
+        <a href="#journey"  class="nav-link"         data-section="journey">Education</a>
+        <a href="#contact"  class="nav-link"         data-section="contact">Contact</a>
+      </nav>
+
+      <!-- Right Actions -->
+      <div class="header-actions">
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark and light theme" title="Switch Theme">
+          <svg class="moon-icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="sun-icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+
+        <!-- Download CV (Controlled dynamically via script.js) -->
+        <a href="/api/public/resume/download" class="btn-cv" id="header-cv-btn" target="_blank" rel="noopener noreferrer" style="display: none;" aria-label="Download Gopal Naik's CV">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Download CV</span>
+        </a>
+
+        <!-- Mobile Hamburger -->
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-drawer">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-nav-backdrop" id="mobile-backdrop" aria-hidden="true"></div>
+  <nav class="mobile-nav-drawer" id="mobile-drawer" aria-hidden="true" aria-label="Mobile navigation">
+    <div class="mobile-nav-links">
+      <a href="#hero"     class="mobile-nav-link active">Home</a>
+      <a href="#about"    class="mobile-nav-link">About</a>
+      <a href="#skills"   class="mobile-nav-link">Skills</a>
+      <a href="#projects" class="mobile-nav-link">Projects</a>
+      <a href="#journey"  class="mobile-nav-link">Education</a>
+      <a href="#contact"  class="mobile-nav-link">Contact</a>
+    </div>
+    <div style="margin-top: auto; padding-top: 1.5rem;" id="mobile-cv-wrapper">
+      <a href="/api/public/resume/download" id="mobile-cv-btn" class="btn-primary" style="width:100%; justify-content:center; display:none;" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download CV
+      </a>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+      <div class="container hero-grid">
+
+        <!-- Left: Content -->
+        <div class="hero-content reveal-on-scroll">
+          <span class="hero-greeting" id="hero-greeting">Hello, I'm</span>
+          <h1 class="hero-title" id="hero-name">Gopal Naik</h1>
+          <p class="hero-role" id="hero-title">Computer Science &amp; Engineering Student | Data Science</p>
+          <p class="hero-bio" id="hero-tagline">I build data-driven applications and modern web solutions.</p>
+
+          <div class="hero-ctas">
+            <a href="#projects" class="btn-primary" id="hero-primary-cta">
+              <span>View My Work &rarr;</span>
+            </a>
+            <a href="#contact" class="btn-secondary" id="hero-secondary-cta">
+              <span>Contact Me</span>
+              <svg viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" stroke-width="2" fill="none"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </a>
+          </div>
+
+          <!-- Social Icons -->
+          <div class="hero-connect">
+            <span class="hero-connect-label">Connect with me</span>
+            <div class="hero-social-icons" id="hero-socials-container">
+              <a href="https://github.com/gopalnaik" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="GitHub Profile">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              </a>
+              <a href="https://linkedin.com/in/gopalnaik" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="LinkedIn Profile">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              </a>
+              <a href="mailto:gopalnaik.dev@gmail.com" class="social-icon-btn" aria-label="Send Email">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Portrait -->
+        <div class="hero-visual reveal-on-scroll delay-1">
+          <div class="hero-portrait-wrapper">
+            <div class="hero-portrait-pattern" aria-hidden="true"></div>
+            <div class="hero-portrait-glow" aria-hidden="true"></div>
+            <img
+              src="/uploads/profile/gopal_profile.jpg"
+              alt="Gopal Naik — Computer Science &amp; Data Science Student"
+              class="hero-portrait-img"
+              id="hero-avatar"
+              width="380"
+              height="380"
+              onerror="this.src='/assets/avatar-placeholder.svg'"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+      <div class="container">
+        <div class="about-grid">
+
+          <!-- Text -->
+          <div class="about-text-content reveal-on-scroll">
+            <span class="section-label">ABOUT ME</span>
+            <h2 class="section-title" id="about-heading">Turning Ideas Into<br>Impactful Solutions</h2>
+            <div class="title-underline-bar"></div>
+            <p class="about-paragraph" id="about-narrative">
+              I'm a Computer Science &amp; Engineering student specializing in Data Science.
+              I enjoy building solutions that solve real-world problems using data, AI, and modern web technologies.
+            </p>
+          </div>
+
+          <!-- 4 Factual Stats Cards -->
+          <div class="stats-cards-grid reveal-on-scroll delay-1">
+
+            <!-- Stat 1 -->
+            <div class="stat-card">
+              <div class="stat-icon-wrap" aria-hidden="true">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              </div>
+              <span class="stat-number" id="about-stat-1-val">4+</span>
+              <span class="stat-label" id="about-stat-1-label">Projects Built</span>
+            </div>
+
+            <!-- Stat 2 -->
+            <div class="stat-card">
+              <div class="stat-icon-wrap" aria-hidden="true">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+              </div>
+              <span class="stat-number" id="about-stat-2-val">15+</span>
+              <span class="stat-label" id="about-stat-2-label">Technologies &amp; Tools</span>
+            </div>
+
+            <!-- Stat 3 -->
+            <div class="stat-card">
+              <div class="stat-icon-wrap" aria-hidden="true">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </div>
+              <span class="stat-number" id="about-stat-3-val">2026</span>
+              <span class="stat-label" id="about-stat-3-label">Expected Graduation</span>
+            </div>
+
+            <!-- Stat 4 -->
+            <div class="stat-card">
+              <div class="stat-icon-wrap" aria-hidden="true">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+              </div>
+              <span class="stat-number" id="about-stat-4-val" style="font-size:1.15rem;">Data Science</span>
+              <span class="stat-label" id="about-stat-4-label">Specialization</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="reveal-on-scroll" style="text-align:center; margin-bottom:3.5rem;">
+          <span class="section-label">MY SKILLS</span>
+          <h2 class="section-title">Technologies I Work With</h2>
+          <p style="color:var(--text-secondary); max-width:600px; margin:0.5rem auto 0;">
+            From data science libraries to full-stack frameworks — the tools I use to build real-world solutions.
+          </p>
+        </div>
+        <div class="skills-categories-grid" id="skills-container">
+          <!-- Dynamically injected by script.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="reveal-on-scroll" style="margin-bottom:2.5rem;">
+          <span class="section-label">MY WORK</span>
+          <h2 class="section-title">Featured Engineering Projects</h2>
+          <p style="color:var(--text-secondary); max-width:600px; margin-top:0.5rem;">
+            Real-world applications spanning Computer Vision, Machine Learning, NLP, and Full-Stack Engineering.
+          </p>
+        </div>
+
+        <!-- Filter Chips Bar -->
+        <div class="projects-filter-bar reveal-on-scroll">
+          <div class="category-chips-list" id="category-chips-container" role="group" aria-label="Filter by category">
+            <button class="category-chip active" data-category="all">All Projects</button>
+          </div>
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="projects-grid" id="projects-container" aria-live="polite">
+          <!-- Dynamically injected by script.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Education Section -->
+    <section class="section" id="journey">
+      <div class="container">
+        <div class="reveal-on-scroll" style="text-align:center; margin-bottom:3.5rem;">
+          <span class="section-label">MY JOURNEY</span>
+          <h2 class="section-title">Academic Background</h2>
+          <p style="color:var(--text-secondary); max-width:600px; margin:0.5rem auto 0;">
+            Academic foundations, technical coursework, and engineering milestones.
+          </p>
+        </div>
+        <div class="timeline" id="education-container" aria-label="Education timeline">
+          <!-- Dynamically injected by script.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="reveal-on-scroll" style="text-align:center; margin-bottom:3.5rem;">
+          <span class="section-label">GET IN TOUCH</span>
+          <h2 class="section-title">Let's Work Together</h2>
+          <p style="color:var(--text-secondary); max-width:600px; margin:0.5rem auto 0;">
+            Have a project idea, collaboration opportunity, or simply want to connect? I'd love to hear from you.
+          </p>
+        </div>
+
+        <div class="contact-grid">
+          <!-- Left: Info cards — populated by script.js hydrateSocials -->
+          <div class="contact-info-panel reveal-on-scroll">
+            <div class="contact-channels" id="contact-channels-container">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Right: Contact Form -->
+          <div class="contact-form-card reveal-on-scroll delay-1">
+            <form id="contact-form" novalidate aria-label="Contact form">
+
+              <div class="form-group">
+                <label for="contact-name" class="form-label">Your Name <span aria-hidden="true" style="color:#f87171;">*</span></label>
+                <input type="text" id="contact-name" name="name" class="form-input" placeholder="e.g. Alex Johnson" required autocomplete="name" />
+                <span class="form-error" id="name-error" role="alert">Please enter your name.</span>
+              </div>
+
+              <div class="form-group">
+                <label for="contact-email" class="form-label">Your Email <span aria-hidden="true" style="color:#f87171;">*</span></label>
+                <input type="email" id="contact-email" name="email" class="form-input" placeholder="e.g. alex@example.com" required autocomplete="email" />
+                <span class="form-error" id="email-error" role="alert">Please enter a valid email address.</span>
+              </div>
+
+              <div class="form-group">
+                <label for="contact-subject" class="form-label">Subject <span aria-hidden="true" style="color:#f87171;">*</span></label>
+                <input type="text" id="contact-subject" name="subject" class="form-input" placeholder="e.g. Collaboration on Data Science Project" required />
+                <span class="form-error" id="subject-error" role="alert">Please enter a subject.</span>
+              </div>
+
+              <div class="form-group">
+                <label for="contact-message" class="form-label">Message <span aria-hidden="true" style="color:#f87171;">*</span></label>
+                <textarea id="contact-message" name="message" class="form-textarea" placeholder="Describe your project, inquiry, or question…" required rows="5"></textarea>
+                <span class="form-error" id="message-error" role="alert">Please enter a message (at least 5 characters).</span>
+              </div>
+
+              <!-- Contact Notice: Admin Dashboard Delivery -->
+              <div class="contact-admin-notice" role="note" aria-label="Contact notice">
+                <div class="notice-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                  </svg>
+                </div>
+                <div class="notice-text">
+                  <p class="notice-header">📧 Please use your real mailbox to contact the owner.</p>
+                  <p class="notice-body">Your message will be received through the Admin Dashboard, not directly in the owner's email inbox.</p>
+                </div>
+              </div>
+
+              <button type="submit" id="submit-btn" class="btn-primary" style="width:100%; border:none; justify-content:center;">
+                <span id="submit-btn-text">Send Message</span>
+              </button>
+
+              <div class="form-feedback-modal" id="form-feedback" aria-live="polite"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-left">
+        <a href="#hero" class="logo" aria-label="Back to top">
+          <span>GN</span><span class="logo-dot">.</span>
+        </a>
+        <div>
+          <p class="footer-copy" style="font-weight:600; color:var(--text-primary);">Gopal Naik</p>
+          <p class="footer-copy">Computer Science &amp; Engineering | Data Science</p>
+        </div>
+      </div>
+
+      <div class="footer-right">
+        <div class="footer-socials" id="footer-socials-container">
+          <a href="https://github.com/gopalnaik" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="GitHub Profile">
+            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          </a>
+          <a href="https://linkedin.com/in/gopalnaik" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="LinkedIn Profile">
+            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="mailto:gopalnaik.dev@gmail.com" class="social-icon-btn" aria-label="Send Email">
+            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </a>
+        </div>
+        <a href="#hero" class="back-to-top" aria-label="Back to top of page">Back to top &uarr;</a>
+      </div>
+    </div>
+    <div class="container" style="padding-top:1.5rem; border-top:1px solid var(--border); margin-top:1.5rem;">
+      <p class="footer-copy" style="text-align:center;">&copy; 2026 Gopal Naik. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Project Details Modal -->
+  <div class="project-modal-backdrop" id="project-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-project-title">
+    <div class="project-modal-card">
+      <button class="modal-close-btn" id="modal-close-btn" aria-label="Close project details">
+        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+
+      <!-- Large Banner Preview -->
+      <div class="modal-media">
+        <img src="/assets/project-placeholder.svg" id="modal-project-img" class="modal-img" alt="Project preview banner" />
+        <div class="modal-media-overlay"></div>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-header-meta">
+          <span class="modal-category-chip" id="modal-project-category">Machine Learning</span>
+          <span class="modal-badge-featured" id="modal-project-featured" style="display:none;">★ Featured Project</span>
+        </div>
+
+        <h3 class="modal-title" id="modal-project-title">Project Title</h3>
+
+        <!-- Problem / Purpose Statement Box -->
+        <div class="modal-problem-box" id="modal-problem-wrapper" style="display:none;">
+          <div class="modal-section-heading">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span>Problem &amp; Purpose</span>
+          </div>
+          <p class="modal-problem-text" id="modal-project-problem"></p>
+        </div>
+
+        <!-- Key Features List -->
+        <div class="modal-features-box" id="modal-features-wrapper" style="display:none;">
+          <div class="modal-section-heading">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Key Features &amp; Capabilities</span>
+          </div>
+          <ul class="modal-features-list" id="modal-project-features"></ul>
+        </div>
+
+        <!-- Detailed Description -->
+        <div class="modal-desc-box">
+          <div class="modal-section-heading">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <span>Project Overview &amp; Methodology</span>
+          </div>
+          <p class="modal-desc" id="modal-project-desc">Full project description.</p>
+        </div>
+
+        <!-- Technologies -->
+        <div class="modal-tech-box">
+          <div class="modal-section-heading">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            <span>Technologies &amp; Architecture</span>
+          </div>
+          <div class="project-tags" id="modal-project-tags"></div>
+        </div>
+
+        <!-- Action Links -->
+        <div class="modal-actions" id="modal-project-actions">
+          <a href="#" id="modal-github-link" class="btn-secondary" target="_blank" rel="noopener noreferrer" style="display:none;">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            <span>View on GitHub</span>
+          </a>
+          <a href="#" id="modal-live-link" class="btn-primary" target="_blank" rel="noopener noreferrer" style="display:none;">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            <span>Live Demo &nearr;</span>
+          </a>
+        </div>
+      </div>
+  </div>
+
+  <script src="/js/script.js"></script>
+</body>
+</html>

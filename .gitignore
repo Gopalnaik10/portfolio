@@ -1,0 +1,30 @@
+# Python Environment
+__pycache__/
+*.py[cod]
+*$py.class
+*.sqlite3
+*.db
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Uploads (persist in local development, but ignore sample uploads from git)
+uploads/profile/*
+!uploads/profile/.gitkeep
+uploads/projects/*
+!uploads/projects/.gitkeep
+uploads/resume/*
+!uploads/resume/.gitkeep
+
+# Operating System
+.DS_Store
+Thumbs.db
+
+# IDE / Editor
+.vscode/
+.idea/
+
+# Logs
+*.log

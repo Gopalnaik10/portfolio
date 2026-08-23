@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard | Portfolio CMS</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/admin/css/admin.css" />
+</head>
+<body>
+
+  <div class="admin-shell">
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar" id="admin-sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <span>&lt;</span><span class="logo-text">Portfolio</span><span class="logo-accent">.CMS</span><span>/&gt;</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-menu">
+        <button class="nav-item active" data-tab="dashboard">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+          <span>Dashboard</span>
+        </button>
+
+        <div class="sidebar-group-title">Portfolio Content</div>
+
+        <button class="nav-item" data-tab="hero">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          <span>Hero Section</span>
+        </button>
+
+        <button class="nav-item" data-tab="about">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <span>About Me</span>
+        </button>
+
+        <button class="nav-item" data-tab="projects">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+          <span>Projects</span>
+        </button>
+
+        <button class="nav-item" data-tab="skills">
+          <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+          <span>Skills</span>
+        </button>
+
+        <button class="nav-item" data-tab="education">
+          <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+          <span>Education</span>
+        </button>
+
+        <button class="nav-item" data-tab="contact">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+          <span>Contact &amp; Socials</span>
+        </button>
+
+        <div class="sidebar-group-title">Communications</div>
+
+        <button class="nav-item" data-tab="messages">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          <span>Messages</span>
+          <span class="nav-badge" id="sidebar-msg-badge" style="display: none;">0</span>
+        </button>
+
+        <div class="sidebar-group-title">Settings</div>
+
+        <button class="nav-item" data-tab="settings">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span>Settings &amp; SEO</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="sidebar-logout-btn" class="btn btn-secondary btn-sm btn-block">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="admin-main">
+      <!-- Topbar -->
+      <header class="admin-topbar">
+        <div class="topbar-left">
+          <button class="sidebar-toggle-btn" id="sidebar-toggle" aria-label="Toggle Sidebar Menu">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <h2 class="topbar-title" id="current-tab-title">Dashboard Overview</h2>
+        </div>
+
+        <div class="topbar-actions">
+          <a href="/" target="_blank" class="btn btn-secondary btn-sm" title="Open public portfolio in new tab">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            <span>Preview Portfolio</span>
+          </a>
+        </div>
+      </header>
+
+      <div class="admin-content">
+        <!-- Tab 1: Dashboard Home -->
+        <div class="tab-pane active" id="tab-dashboard">
+          <!-- Summary Metrics -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <span class="metric-label">Published Projects</span>
+              <span class="metric-value" id="stat-published-projects">0</span>
+              <span class="metric-sub" id="stat-total-projects">0 total created</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">Total Skills</span>
+              <span class="metric-value" id="stat-total-skills">0</span>
+              <span class="metric-sub">Across all categories</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">Unread Messages</span>
+              <span class="metric-value" id="stat-unread-messages" style="color: var(--status-error);">0</span>
+              <span class="metric-sub" id="stat-total-messages">0 total inquiries</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">Portfolio Visits</span>
+              <span class="metric-value" id="stat-total-visits">0</span>
+              <span class="metric-sub" id="stat-unique-visitors">Privacy-safe count</span>
+            </div>
+          </div>
+
+          <!-- Grid: Recent Activities & Popular Projects -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 1.5rem;">
+            <!-- Real Activity Stream -->
+            <div class="admin-card">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title">Recent Activity</h3>
+                  <p class="card-desc">Audit log of portfolio updates and incoming inquiries.</p>
+                </div>
+              </div>
+              <div id="activity-log-list" style="display: flex; flex-direction: column; gap: 0.85rem;">
+                <p style="color: var(--text-muted); text-align: center; padding: 1.5rem 0;">No activity yet.</p>
+              </div>
+            </div>
+
+            <!-- Popular Projects -->
+            <div class="admin-card">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title">Popular Projects</h3>
+                  <p class="card-desc">Projects viewed most frequently by visitors.</p>
+                </div>
+              </div>
+              <div id="popular-projects-list" style="display: flex; flex-direction: column; gap: 0.85rem;">
+                <p style="color: var(--text-muted); text-align: center; padding: 1.5rem 0;">No project view data yet.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Hero Section -->
+        <div class="tab-pane" id="tab-hero">
+          <form id="hero-form">
+            <div class="admin-card">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title">Hero Section &amp; Introduction</h3>
+                  <p class="card-desc">Primary greeting, identity, headline, and call-to-action buttons.</p>
+                </div>
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="hero-greeting-input">Greeting Prefix</label>
+                  <input type="text" id="hero-greeting-input" class="form-input" placeholder="e.g. Hello, I'm" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="hero-name-input">Full Name</label>
+                  <input type="text" id="hero-name-input" class="form-input" placeholder="e.g. Gopal Naik" required />
+                </div>
+                <div class="form-group full-width">
+                  <label class="form-label" for="hero-title-input">Professional Subtitle / Title</label>
+                  <input type="text" id="hero-title-input" class="form-input" placeholder="e.g. Computer Science & Engineering Student | Data Science" />
+                </div>
+                <div class="form-group full-width">
+                  <label class="form-label" for="hero-tagline-input">Hero Intro Summary</label>
+                  <textarea id="hero-tagline-input" class="form-textarea" placeholder="Brief 1-2 sentence hero statement..."></textarea>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="hero-availability-input">Availability Status Badge</label>
+                  <input type="text" id="hero-availability-input" class="form-input" placeholder="e.g. Available for Roles & Collaborations" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="hero-location-input">Location / Work Preference</label>
+                  <input type="text" id="hero-location-input" class="form-input" placeholder="e.g. Open to Remote & On-Site" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="hero-p-cta-text">Primary CTA Label</label>
+                  <input type="text" id="hero-p-cta-text" class="form-input" placeholder="View My Work →" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="hero-p-cta-url">Primary CTA Target URL</label>
+                  <input type="text" id="hero-p-cta-url" class="form-input" placeholder="#projects" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="hero-s-cta-text">Secondary CTA Label</label>
+                  <input type="text" id="hero-s-cta-text" class="form-input" placeholder="Contact Me" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="hero-s-cta-url">Secondary CTA Target URL</label>
+                  <input type="text" id="hero-s-cta-url" class="form-input" placeholder="#contact" />
+                </div>
+              </div>
+
+              <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end;">
+                <button type="submit" class="btn btn-primary">
+                  <span>Save Hero Section</span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Tab 3: About Me Editor -->
+        <div class="tab-pane" id="tab-about">
+          <form id="about-form">
+            <!-- Profile / Headshot Image Uploader -->
+            <div class="admin-card">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title">Profile Photo / Headshot</h3>
+                  <p class="card-desc">Upload a high-quality professional portrait or avatar. Previews instantly.</p>
+                </div>
+              </div>
+              <div class="image-uploader-box">
+                <img src="/uploads/profile/gopal_profile.jpg" id="about-image-preview" class="image-preview-thumb" alt="Avatar preview" />
+                <div>
+                  <input type="file" id="about-image-input" accept="image/png, image/jpeg, image/webp" style="display: none;" />
+                  <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('about-image-input').click()">
+                    <span>Upload New Photo</span>
+                  </button>
+                  <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.4rem;">Accepted: JPG, PNG, WebP (Max 20MB)</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- About Headings & Narrative -->
+            <div class="admin-card">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title">About Me Narrative &amp; Focus</h3>
+                  <p class="card-desc">Edit section heading, academic journey, and technical focus.</p>
+                </div>
+              </div>
+              <div class="form-grid">
+                <div class="form-group full-width">
+                  <label class="form-label" for="about-heading-input">About Section Heading</label>
+                  <input type="text" id="about-heading-input" class="form-input" placeholder="e.g. Turning Ideas Into Impactful Solutions" />
+                </div>
+                <div class="form-group full-width">
+                  <label class="form-label" for="about-narrative-input">Academic &amp; Technical Narrative (Bio)</label>
+                  <textarea id="about-narrative-input" class="form-textarea" style="min-height: 120px;" placeholder="First paragraph introducing your background, engineering journey, and technical interests..."></textarea>
+                </div>
+                <div class="form-group full-width">
+                  <label class="form-label" for="about-focus-input">Core Problem Solving &amp; Engineering Focus</label>
+                  <textarea id="about-focus-input" class="form-textarea" style="min-height: 100px;" placeholder="Second paragraph detailing your focus in Data Science, Machine Learning, Computer Vision, and full-stack architectures..."></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4 Customizable Factual Statistics -->
+            <div class="admin-card">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title">Customizable Factual Statistics (4 Cards)</h3>
+                  <p class="card-desc">Configure the 4 key metric cards displayed in your About Me section.</p>
+                </div>
+              </div>
+
+              <div class="stats-config-grid">
+                <!-- Stat 1 -->
+                <div class="stat-config-card">
+                  <div class="stat-config-title">Stat Card 1</div>
+                  <div class="form-group" style="margin-bottom: 0.75rem;">
+                    <label class="form-label" for="stat1-val">Value / Metric</label>
+                    <input type="text" id="stat1-val" class="form-input" placeholder="e.g. 4+" />
+                  </div>
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" for="stat1-label">Label Description</label>
+                    <input type="text" id="stat1-label" class="form-input" placeholder="e.g. Projects Built" />
+                  </div>
+                </div>
+
+                <!-- Stat 2 -->
+                <div class="stat-config-card">
+                  <div class="stat-config-title">Stat Card 2</div>
+                  <div class="form-group" style="margin-bottom: 0.75rem;">
+                    <label class="form-label" for="stat2-val">Value / Metric</label>
+                    <input type="text" id="stat2-val" class="form-input" placeholder="e.g. 15+" />
+                  </div>
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" for="stat2-label">Label Description</label>
+                    <input type="text" id="stat2-label" class="form-input" placeholder="e.g. Technologies & Tools" />
+                  </div>
+                </div>
+
+                <!-- Stat 3 -->
+                <div class="stat-config-card">
+                  <div class="stat-config-title">Stat Card 3</div>
+                  <div class="form-group" style="margin-bottom: 0.75rem;">
+                    <label class="form-label" for="stat3-val">Value / Metric</label>
+                    <input type="text" id="stat3-val" class="form-input" placeholder="e.g. 2026" />
+                  </div>
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" for="stat3-label">Label Description</label>
+                    <input type="text" id="stat3-label" class="form-input" placeholder="e.g. Expected Graduation" />
+                  </div>
+                </div>
+
+                <!-- Stat 4 -->
+                <div class="stat-config-card">
+                  <div class="stat-config-title">Stat Card 4</div>
+                  <div class="form-group" style="margin-bottom: 0.75rem;">
+                    <label class="form-label" for="stat4-val">Value / Metric</label>
+                    <input type="text" id="stat4-val" class="form-input" placeholder="e.g. Data Science" />
+                  </div>
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" for="stat4-label">Label Description</label>
+                    <input type="text" id="stat4-label" class="form-input" placeholder="e.g. Specialization" />
+                  </div>
+                </div>
+              </div>
+
+              <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end;">
+                <button type="submit" class="btn btn-primary">
+                  <span>Save About Me Section</span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Tab 4: Projects Management -->
+        <div class="tab-pane" id="tab-projects">
+          <div class="admin-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Featured &amp; Published Projects</h3>
+                <p class="card-desc">Add case studies, upload screenshots, add problem statements and key features.</p>
+              </div>
+              <button class="btn btn-primary btn-sm" id="btn-add-project">
+                <span>+ Add New Project</span>
+              </button>
+            </div>
+
+            <div class="data-table-wrapper">
+              <table class="data-table" id="projects-table">
+                <thead>
+                  <tr>
+                    <th style="width: 40px;">#</th>
+                    <th>Preview</th>
+                    <th>Project Title</th>
+                    <th>Category</th>
+                    <th>Featured</th>
+                    <th>Status</th>
+                    <th style="text-align: right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="projects-table-body">
+                  <!-- Injected via JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 5: Skills Management -->
+        <div class="tab-pane" id="tab-skills">
+          <div class="admin-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Skills &amp; Toolkit</h3>
+                <p class="card-desc">Manage technical competencies across categories. Drag rows to reorder.</p>
+              </div>
+              <button class="btn btn-primary btn-sm" id="btn-add-skill">
+                <span>+ Add New Skill</span>
+              </button>
+            </div>
+
+            <div class="data-table-wrapper">
+              <table class="data-table" id="skills-table">
+                <thead>
+                  <tr>
+                    <th style="width: 40px;">#</th>
+                    <th>Skill Name</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th style="text-align: right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="skills-table-body">
+                  <!-- Injected via JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 6: Education Management -->
+        <div class="tab-pane" id="tab-education">
+          <!-- Dedicated Education Editor Form -->
+          <form id="education-form">
+            <input type="hidden" id="edu-form-id" value="" />
+            <div class="admin-card">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title">Education Background Editor</h3>
+                  <p class="card-desc">Edit your degree program, institution, specialization, timeline, coursework, and focus.</p>
+                </div>
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="edu-form-degree">Degree / Program</label>
+                  <input type="text" id="edu-form-degree" class="form-input" placeholder="e.g. Computer Science &amp; Engineering" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="edu-form-specialization">Specialization</label>
+                  <input type="text" id="edu-form-specialization" class="form-input" placeholder="e.g. Specialization in Data Science" />
+                </div>
+                <div class="form-group full-width">
+                  <label class="form-label" for="edu-form-institution">Institution / University Name</label>
+                  <input type="text" id="edu-form-institution" class="form-input" placeholder="e.g. B.E. / B.Tech Degree Program" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="edu-form-start-year">Start Year</label>
+                  <input type="text" id="edu-form-start-year" class="form-input" placeholder="e.g. 2022" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="edu-form-end-year">End Year / Expected</label>
+                  <input type="text" id="edu-form-end-year" class="form-input" placeholder="e.g. 2026" />
+                </div>
+                <div class="form-group full-width">
+                  <label class="form-label" for="edu-form-coursework">Relevant Coursework (Comma-separated)</label>
+                  <textarea id="edu-form-coursework" class="form-textarea" placeholder="e.g. Data Structures &amp; Algorithms, Machine Learning, Database Management Systems, Computer Networks, Operating Systems, Web Technologies"></textarea>
+                </div>
+                <div class="form-group full-width">
+                  <label class="form-label" for="edu-form-description">Description, Focus &amp; Honors</label>
+                  <textarea id="edu-form-description" class="form-textarea" style="min-height: 100px;" placeholder="Academic highlights, focus areas, honors, and coursework overview..."></textarea>
+                </div>
+                <div class="form-group full-width" style="display: flex; gap: 2rem; flex-wrap: wrap;">
+                  <label class="form-checkbox-label">
+                    <input type="checkbox" id="edu-form-expected" />
+                    <span>Expected Graduation / Currently In Progress</span>
+                  </label>
+                  <label class="form-checkbox-label">
+                    <input type="checkbox" id="edu-form-published" checked />
+                    <span>Publish on Public Portfolio</span>
+                  </label>
+                </div>
+              </div>
+              <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end;">
+                <button type="submit" class="btn btn-primary" id="edu-form-save-btn">
+                  <span>Save Education Background</span>
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <!-- All Education Entries List -->
+          <div class="admin-card" style="margin-top: 1.5rem;">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">All Academic Records</h3>
+                <p class="card-desc">Manage multiple degrees, certifications, or academic milestones.</p>
+              </div>
+              <button class="btn btn-secondary btn-sm" id="btn-add-education">
+                <span>+ Add Another Degree / Program</span>
+              </button>
+            </div>
+
+            <div class="data-table-wrapper">
+              <table class="data-table" id="education-table">
+                <thead>
+                  <tr>
+                    <th style="width: 40px;">#</th>
+                    <th>Degree / Program</th>
+                    <th>Institution</th>
+                    <th>Years</th>
+                    <th>Status</th>
+                    <th style="text-align: right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="education-table-body">
+                  <!-- Injected via JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 7: Contact Info & Socials & Resume -->
+        <div class="tab-pane" id="tab-contact">
+          <!-- Contact Details Form -->
+          <form id="contact-info-form">
+            <div class="admin-card">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title">Contact Channels</h3>
+                  <p class="card-desc">Direct email, phone, and location details shown in contact section.</p>
+                </div>
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="contact-email-input">Direct Contact Email</label>
+                  <input type="email" id="contact-email-input" class="form-input" placeholder="your.email@example.com" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="contact-phone-input">Phone Number (Optional)</label>
+                  <input type="text" id="contact-phone-input" class="form-input" placeholder="+1 (555) 000-0000" />
+                </div>
+                <div class="form-group full-width">
+                  <label class="form-label" for="contact-location-input">Location &amp; Availability</label>
+                  <input type="text" id="contact-location-input" class="form-input" placeholder="e.g. Open to Remote & On-Site" />
+                </div>
+              </div>
+              <div style="margin-top: 1.25rem; display: flex; justify-content: flex-end;">
+                <button type="submit" class="btn btn-primary">
+                  <span>Save Contact Details</span>
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Resume PDF Upload -->
+          <div class="admin-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Downloadable Resume PDF</h3>
+                <p class="card-desc">Upload your current CV for public download button.</p>
+              </div>
+            </div>
+            <div id="resume-current-view" style="margin-bottom: 1rem;">
+              <p style="color: var(--text-muted);">No active resume uploaded.</p>
+            </div>
+            <div class="image-uploader-box">
+              <input type="file" id="resume-file-input" accept=".pdf,application/pdf" style="display: none;" />
+              <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('resume-file-input').click()">
+                <span>Upload Resume PDF</span>
+              </button>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.4rem;">Only .PDF documents accepted (Max 20MB)</p>
+            </div>
+          </div>
+
+          <!-- Social Links Table -->
+          <div class="admin-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Social Links &amp; Profiles</h3>
+                <p class="card-desc">Manage links to GitHub, LinkedIn, Email, Twitter, and other platforms.</p>
+              </div>
+              <button class="btn btn-primary btn-sm" id="btn-add-social">
+                <span>+ Add Social Link</span>
+              </button>
+            </div>
+
+            <div class="data-table-wrapper">
+              <table class="data-table" id="socials-table">
+                <thead>
+                  <tr>
+                    <th>Platform</th>
+                    <th>URL</th>
+                    <th>Status</th>
+                    <th style="text-align: right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="socials-table-body">
+                  <!-- Injected via JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 8: Messages Inbox -->
+        <div class="tab-pane" id="tab-messages">
+          <div class="admin-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Contact Form Messages</h3>
+                <p class="card-desc">Inquiries and messages submitted by visitors on the public portfolio.</p>
+              </div>
+            </div>
+
+            <div class="data-table-wrapper">
+              <table class="data-table" id="messages-table">
+                <thead>
+                  <tr>
+                    <th style="width: 130px;">Received</th>
+                    <th>Sender Name</th>
+                    <th>Email Address</th>
+                    <th>Subject</th>
+                    <th>Status</th>
+                    <th style="text-align: right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="messages-table-body">
+                  <!-- Injected via JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 9: Settings, SEO, Security & Backup -->
+        <div class="tab-pane" id="tab-settings">
+          <!-- SEO & Meta Configuration -->
+          <form id="settings-form">
+            <div class="admin-card">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title">SEO &amp; Open Graph Settings</h3>
+                  <p class="card-desc">Configure search engine titles, descriptions, and social preview metadata.</p>
+                </div>
+              </div>
+              <div class="form-grid">
+                <div class="form-group full-width">
+                  <label class="form-label" for="set-site-title">Page Title (HTML &lt;title&gt; &amp; Open Graph Title)</label>
+                  <input type="text" id="set-site-title" class="form-input" placeholder="e.g. Gopal Naik | Computer Science &amp; Engineering | Data Science" />
+                </div>
+                <div class="form-group full-width">
+                  <label class="form-label" for="set-meta-desc">Meta Description (SEO snippet &amp; Open Graph Description)</label>
+                  <textarea id="set-meta-desc" class="form-textarea" placeholder="Brief summary describing your portfolio for Google and search crawlers..."></textarea>
+                </div>
+                <div class="form-group full-width">
+                  <label class="form-label" for="set-keywords">Keywords (Comma-separated)</label>
+                  <input type="text" id="set-keywords" class="form-input" placeholder="e.g. Gopal Naik, Data Science, Machine Learning, Python, Full Stack Developer, Computer Vision" />
+                </div>
+              </div>
+
+              <!-- Maintenance Mode -->
+              <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-subtle);">
+                <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.75rem;">Maintenance Mode</h4>
+                <label class="form-checkbox-label" style="margin-bottom: 1rem;">
+                  <input type="checkbox" id="set-maintenance-mode" />
+                  <span>Enable Public Maintenance Mode (Blocks public visitors with maintenance message)</span>
+                </label>
+                <div class="form-group">
+                  <label class="form-label" for="set-maintenance-msg">Maintenance Message</label>
+                  <input type="text" id="set-maintenance-msg" class="form-input" placeholder="Undergoing scheduled upgrades. Back soon!" />
+                </div>
+              </div>
+
+              <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end;">
+                <button type="submit" class="btn btn-primary">
+                  <span>Save SEO &amp; Maintenance Settings</span>
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Security & Admin Password -->
+          <form id="password-form">
+            <div class="admin-card">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title">Security &amp; Admin Credentials</h3>
+                  <p class="card-desc">Update your administrator login password and account credentials.</p>
+                </div>
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="admin-current-email">Admin Email Address</label>
+                  <input type="email" id="admin-current-email" class="form-input" value="admin@portfolio.local" readonly style="opacity: 0.7;" />
+                </div>
+                <div class="form-group"></div>
+                <div class="form-group">
+                  <label class="form-label" for="admin-new-password">New Password</label>
+                  <input type="password" id="admin-new-password" class="form-input" placeholder="Minimum 8 characters" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="admin-confirm-password">Confirm New Password</label>
+                  <input type="password" id="admin-confirm-password" class="form-input" placeholder="Re-enter new password" required />
+                </div>
+              </div>
+              <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end;">
+                <button type="submit" class="btn btn-secondary">
+                  <span>Update Password</span>
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Database Backup & Restore -->
+          <div class="admin-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Database Backup &amp; Safe Restore</h3>
+                <p class="card-desc">Export full portfolio content into portable JSON or restore from existing backup.</p>
+              </div>
+            </div>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+              <a href="/api/admin/backup/export" download class="btn btn-secondary">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span>Export JSON Backup</span>
+              </a>
+              <div>
+                <input type="file" id="backup-import-file" accept=".json,application/json" style="display: none;" />
+                <button type="button" class="btn btn-secondary" onclick="document.getElementById('backup-import-file').click()">
+                  <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                  <span>Restore from JSON File</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Universal Modal -->
+  <div class="admin-modal-backdrop" id="admin-modal" aria-hidden="true" role="dialog">
+    <div class="admin-modal-card" id="admin-modal-content">
+      <!-- Dynamically injected via JavaScript -->
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="/admin/js/admin.js"></script>
+</body>
+</html>

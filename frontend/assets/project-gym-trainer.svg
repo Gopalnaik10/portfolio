@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="gymBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070B14" />
+      <stop offset="60%" stop-color="#111827" />
+      <stop offset="100%" stop-color="#1E1B4B" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366F1" />
+      <stop offset="100%" stop-color="#A855F7" />
+    </linearGradient>
+    <pattern id="gymGrid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="rgba(148, 163, 184, 0.08)" stroke-width="1" />
+    </pattern>
+  </defs>
+
+  <rect width="600" height="360" fill="url(#gymBg)" />
+  <rect width="600" height="360" fill="url(#gymGrid)" />
+
+  <!-- Ambient Glow -->
+  <circle cx="300" cy="180" r="120" fill="#6366F1" fill-opacity="0.12" filter="blur(40px)" />
+  <circle cx="420" cy="120" r="90" fill="#A855F7" fill-opacity="0.15" filter="blur(30px)" />
+
+  <!-- Pose Detection / Workout Analytics Visualization -->
+  <g opacity="0.9" transform="translate(40, 20)">
+    <!-- Pose Estimation Wireframe -->
+    <circle cx="260" cy="70" r="14" fill="none" stroke="#A855F7" stroke-width="2.5" />
+    <line x1="260" y1="84" x2="260" y2="150" stroke="#6366F1" stroke-width="3" />
+    
+    <!-- Arms -->
+    <line x1="260" y1="100" x2="210" y2="130" stroke="#8B5CF6" stroke-width="2.5" />
+    <line x1="210" y1="130" x2="190" y2="90" stroke="#A855F7" stroke-width="2.5" />
+    <line x1="260" y1="100" x2="310" y2="130" stroke="#8B5CF6" stroke-width="2.5" />
+    <line x1="310" y1="130" x2="330" y2="90" stroke="#A855F7" stroke-width="2.5" />
+
+    <!-- Legs -->
+    <line x1="260" y1="150" x2="225" y2="210" stroke="#6366F1" stroke-width="2.5" />
+    <line x1="225" y1="210" x2="215" y2="270" stroke="#8B5CF6" stroke-width="2.5" />
+    <line x1="260" y1="150" x2="295" y2="210" stroke="#6366F1" stroke-width="2.5" />
+    <line x1="295" y1="210" x2="305" y2="270" stroke="#8B5CF6" stroke-width="2.5" />
+
+    <!-- Joint Keypoints -->
+    <circle cx="210" cy="130" r="4" fill="#38BDF8" />
+    <circle cx="190" cy="90" r="5" fill="#A855F7" />
+    <circle cx="310" cy="130" r="4" fill="#38BDF8" />
+    <circle cx="330" cy="90" r="5" fill="#A855F7" />
+    <circle cx="225" cy="210" r="4" fill="#38BDF8" />
+    <circle cx="295" cy="210" r="4" fill="#38BDF8" />
+    <circle cx="215" cy="270" r="5" fill="#A855F7" />
+    <circle cx="305" cy="270" r="5" fill="#A855F7" />
+  </g>
+
+  <!-- Metric Analytics HUD Card -->
+  <g transform="translate(380, 70)">
+    <rect width="180" height="90" rx="12" fill="#0D1220" stroke="rgba(148, 163, 184, 0.2)" stroke-width="1" />
+    <text x="16" y="28" fill="#94A3B8" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="600">REP COUNTER</text>
+    <text x="16" y="60" fill="#F8FAFC" font-family="'Plus Jakarta Sans', sans-serif" font-size="26" font-weight="800">14 <tspan font-size="14" fill="#10B981">/ 15</tspan></text>
+    <text x="16" y="78" fill="#A855F7" font-family="'JetBrains Mono', monospace" font-size="10">ACCURACY: 98.4%</text>
+  </g>
+
+  <!-- Title Pill -->
+  <g transform="translate(30, 290)">
+    <rect width="200" height="38" rx="19" fill="#070B14" stroke="url(#purpleGrad)" stroke-width="1.5" />
+    <text x="100" y="24" fill="#F8FAFC" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="700" text-anchor="middle">
+      AI Gym Trainer &bull; Streamlit
+    </text>
+  </g>
+</svg>

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="cardBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="50%" stop-color="#1e1b4b" />
+      <stop offset="100%" stop-color="#090d16" />
+    </linearGradient>
+    <linearGradient id="projAccent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+    <pattern id="projGrid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#334155" stroke-width="0.75" stroke-opacity="0.3" />
+    </pattern>
+  </defs>
+
+  <rect width="600" height="360" fill="url(#cardBg)" />
+  <rect width="600" height="360" fill="url(#projGrid)" />
+
+  <g opacity="0.85">
+    <line x1="80" y1="240" x2="520" y2="240" stroke="#334155" stroke-width="1.5" />
+    <line x1="80" y1="80" x2="80" y2="240" stroke="#334155" stroke-width="1.5" />
+    <line x1="80" y1="180" x2="520" y2="180" stroke="#1e293b" stroke-dasharray="4 4" stroke-width="1" />
+    <line x1="80" y1="120" x2="520" y2="120" stroke="#1e293b" stroke-dasharray="4 4" stroke-width="1" />
+
+    <path d="M 80 210 Q 180 220, 240 160 T 380 130 T 520 70" fill="none" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" />
+    <path d="M 80 190 Q 160 140, 260 170 T 420 100 T 520 110" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-dasharray="6 4" stroke-linecap="round" />
+
+    <circle cx="240" cy="160" r="5" fill="#38bdf8" stroke="#0f172a" stroke-width="2" />
+    <circle cx="380" cy="130" r="5" fill="#38bdf8" stroke="#0f172a" stroke-width="2" />
+    <circle cx="520" cy="70" r="6" fill="#38bdf8" stroke="#ffffff" stroke-width="2" />
+    <circle cx="260" cy="170" r="4" fill="#818cf8" stroke="#0f172a" stroke-width="2" />
+    <circle cx="420" cy="100" r="4" fill="#818cf8" stroke="#0f172a" stroke-width="2" />
+  </g>
+
+  <g transform="translate(180, 270)">
+    <rect width="240" height="40" rx="20" fill="#0b0f19" stroke="url(#projAccent)" stroke-width="1.5" opacity="0.95" />
+    <text x="120" y="25" fill="#f8fafc" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="13" font-weight="600" text-anchor="middle">
+      [Project Image / Preview]
+    </text>
+  </g>
+</svg>

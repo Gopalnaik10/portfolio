@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login | Portfolio CMS</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/admin/css/admin.css" />
+</head>
+<body class="login-body">
+
+  <div class="login-wrapper">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="login-logo">
+          <span>&lt;</span><span class="logo-text">Portfolio</span><span class="logo-accent">.admin</span><span>/&gt;</span>
+        </div>
+        <h1 class="login-title">Private Administration</h1>
+        <p class="login-subtitle">Authenticate to manage your portfolio content, projects, and messages.</p>
+      </div>
+
+      <div class="login-alert" id="login-alert" style="display: none;"></div>
+
+      <form id="admin-login-form" novalidate>
+        <div class="form-group">
+          <label for="admin-email" class="form-label">Admin Email</label>
+          <input type="email" id="admin-email" name="email" class="form-input" placeholder="admin@portfolio.local" required autocomplete="email" />
+        </div>
+
+        <div class="form-group">
+          <label for="admin-password" class="form-label">Password</label>
+          <div class="password-input-wrapper">
+            <input type="password" id="admin-password" name="password" class="form-input" placeholder="Enter your password" required autocomplete="current-password" />
+            <button type="button" class="password-toggle-btn" id="password-toggle" aria-label="Toggle password visibility">
+              <svg id="eye-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" id="login-btn" class="btn btn-primary btn-block">
+          <span id="login-btn-text">Sign In to Dashboard</span>
+        </button>
+      </form>
+
+      <div class="login-footer">
+        <a href="/" class="login-back-link">&larr; Return to Public Portfolio</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('admin-login-form');
+      const emailInput = document.getElementById('admin-email');
+      const passwordInput = document.getElementById('admin-password');
+      const passwordToggle = document.getElementById('password-toggle');
+      const loginBtn = document.getElementById('login-btn');
+      const loginBtnText = document.getElementById('login-btn-text');
+      const alertBox = document.getElementById('login-alert');
+
+      // Password toggle
+      passwordToggle.addEventListener('click', () => {
+        const isPass = passwordInput.type === 'password';
+        passwordInput.type = isPass ? 'text' : 'password';
+      });
+
+      // Submit
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        alertBox.style.display = 'none';
+
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+
+        if (!email || !password) {
+          showAlert('Please enter both your admin email and password.');
+          return;
+        }
+
+        loginBtn.disabled = true;
+        loginBtnText.textContent = 'Authenticating...';
+
+        try {
+          const res = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+          });
+
+          const data = await res.json();
+          if (res.ok && data.success) {
+            window.location.href = '/admin/dashboard';
+          } else {
+            showAlert(data.error || 'Invalid credentials. Please try again.');
+          }
+        } catch (err) {
+          showAlert('Network error: Could not reach the authentication server.');
+        } finally {
+          loginBtn.disabled = false;
+          loginBtnText.textContent = 'Sign In to Dashboard';
+        }
+      });
+
+      function showAlert(msg) {
+        alertBox.textContent = msg;
+        alertBox.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
