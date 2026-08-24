@@ -26,12 +26,27 @@ class Config:
     SECRET_KEY = _raw_secret or 'dev-insecure-secret-key-for-local-development-only'
     
     # Database Configuration
-    raw_db_url = os.getenv('DATABASE_URL', f"sqlite:///{BASE_DIR / 'database' / 'portfolio.db'}")
-    # Normalize postgres:// to postgresql:// for SQLAlchemy 2.0
+    raw_db_url = os.getenv('DATABASE_URL')
+    if is_prod:
+        if not raw_db_url:
+            raise ValueError(
+                "CRITICAL CONFIGURATION ERROR: DATABASE_URL environment variable is required in production. "
+                "Please provision a PostgreSQL database (e.g. Render PostgreSQL, Supabase, Neon) and set DATABASE_URL."
+            )
+        if raw_db_url.startswith("sqlite"):
+            raise ValueError(
+                "CRITICAL CONFIGURATION ERROR: SQLite cannot be used in production because cloud containers use an ephemeral filesystem. "
+                "Please configure DATABASE_URL to point to a persistent PostgreSQL database."
+            )
+
+    if not raw_db_url:
+        raw_db_url = f"sqlite:///{BASE_DIR / 'database' / 'portfolio.db'}"
+
+    # Normalize postgres:// to postgresql:// for SQLAlchemy 2.0+
     if raw_db_url.startswith("postgres://"):
         raw_db_url = raw_db_url.replace("postgres://", "postgresql://", 1)
     elif raw_db_url.startswith("sqlite:///"):
-        # Ensure database directory exists for SQLite
+        # Ensure database directory exists for SQLite in local development
         db_path = raw_db_url.replace("sqlite:///", "")
         if not os.path.isabs(db_path):
             abs_db_path = BASE_DIR / db_path
@@ -41,13 +56,16 @@ class Config:
     SQLALCHEMY_DATABASE_URI = raw_db_url
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ENGINE_OPTIONS = {
-        "pool_pre_ping": True
+        "pool_pre_ping": True,
+        "pool_recycle": 300,
+        "pool_size": 10,
+        "max_overflow": 20
     } if not raw_db_url.startswith("sqlite") else {}
 
-    # Uploads Configuration
+    # Uploads & Persistent Storage Configuration
     raw_upload_dir = os.getenv('UPLOAD_FOLDER', str(BASE_DIR / 'uploads'))
     UPLOAD_FOLDER = Path(raw_upload_dir) if os.path.isabs(raw_upload_dir) else (BASE_DIR / raw_upload_dir)
-    # Ensure upload directories exist
+    # Ensure upload directories exist on the persistent mount path
     UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
     (UPLOAD_FOLDER / 'profile').mkdir(parents=True, exist_ok=True)
     (UPLOAD_FOLDER / 'projects').mkdir(parents=True, exist_ok=True)

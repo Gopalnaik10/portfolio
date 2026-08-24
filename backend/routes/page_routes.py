@@ -29,6 +29,16 @@ def frontend_assets(filename):
 # ---------------- Uploaded Files ----------------
 @page_bp.route('/uploads/<path:filename>', methods=['GET'])
 def uploaded_file(filename):
+    file_path = Config.UPLOAD_FOLDER / filename
+    if file_path.is_file():
+        return send_from_directory(str(Config.UPLOAD_FOLDER), filename)
+    
+    # Fallback to bundled frontend assets for default images if not yet in persistent upload folder
+    asset_name = Path(filename).name
+    bundled_asset = BASE_DIR / 'frontend' / 'assets' / asset_name
+    if bundled_asset.is_file():
+        return send_from_directory(str(BASE_DIR / 'frontend' / 'assets'), asset_name)
+
     return send_from_directory(str(Config.UPLOAD_FOLDER), filename)
 
 # ---------------- Admin Interface ----------------
