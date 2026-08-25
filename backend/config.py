@@ -64,12 +64,26 @@ class Config:
 
     # Uploads & Persistent Storage Configuration
     raw_upload_dir = os.getenv('UPLOAD_FOLDER', str(BASE_DIR / 'uploads'))
-    UPLOAD_FOLDER = Path(raw_upload_dir) if os.path.isabs(raw_upload_dir) else (BASE_DIR / raw_upload_dir)
-    # Ensure upload directories exist on the persistent mount path
-    UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
-    (UPLOAD_FOLDER / 'profile').mkdir(parents=True, exist_ok=True)
-    (UPLOAD_FOLDER / 'projects').mkdir(parents=True, exist_ok=True)
-    (UPLOAD_FOLDER / 'resume').mkdir(parents=True, exist_ok=True)
+    try:
+        target_upload_path = Path(raw_upload_dir) if os.path.isabs(raw_upload_dir) else (BASE_DIR / raw_upload_dir)
+        target_upload_path.mkdir(parents=True, exist_ok=True)
+        (target_upload_path / 'profile').mkdir(parents=True, exist_ok=True)
+        (target_upload_path / 'projects').mkdir(parents=True, exist_ok=True)
+        (target_upload_path / 'resume').mkdir(parents=True, exist_ok=True)
+        UPLOAD_FOLDER = target_upload_path
+    except (PermissionError, OSError):
+        fallback_upload_path = BASE_DIR / 'uploads'
+        fallback_upload_path.mkdir(parents=True, exist_ok=True)
+        (fallback_upload_path / 'profile').mkdir(parents=True, exist_ok=True)
+        (fallback_upload_path / 'projects').mkdir(parents=True, exist_ok=True)
+        (fallback_upload_path / 'resume').mkdir(parents=True, exist_ok=True)
+        UPLOAD_FOLDER = fallback_upload_path
+
+    # Cloudinary Image Storage Configuration (Production & Cloud Hosting)
+    CLOUDINARY_CLOUD_NAME = os.getenv('CLOUDINARY_CLOUD_NAME', '').strip()
+    CLOUDINARY_API_KEY = os.getenv('CLOUDINARY_API_KEY', '').strip()
+    CLOUDINARY_API_SECRET = os.getenv('CLOUDINARY_API_SECRET', '').strip()
+    is_cloudinary_configured = bool(CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET)
 
     MAX_CONTENT_LENGTH = 20 * 1024 * 1024  # 20 MB max file size
     # Image uploads: JPG, JPEG, PNG, WebP only.

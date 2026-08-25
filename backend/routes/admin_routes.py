@@ -38,13 +38,23 @@ def update_profile():
 def upload_profile_image():
     if 'image' not in request.files:
         return jsonify({'success': False, 'error': 'No image file provided'}), 400
-    
+
     file = request.files['image']
+
+    # Retrieve current profile image before updating
+    current_profile = PortfolioService.get_public_portfolio_data().get('profile', {})
+    old_image_url = current_profile.get('profile_image')
+
     success, result = UploadService.save_profile_image(file)
     if not success:
         return jsonify({'success': False, 'error': result}), 400
 
     PortfolioService.update_profile({'profile_image': result})
+
+    # Only after successful replacement, delete old Cloudinary asset if it was a Cloudinary asset
+    if old_image_url and old_image_url != result:
+        UploadService.delete_cloudinary_asset(old_image_url)
+
     return jsonify({'success': True, 'message': 'Profile picture updated', 'image_url': result})
 
 # Skills Management

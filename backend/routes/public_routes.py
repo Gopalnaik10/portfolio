@@ -1,5 +1,5 @@
 from pathlib import Path
-from flask import Blueprint, request, jsonify, send_file, session, abort
+from flask import Blueprint, request, jsonify, send_file, session, abort, redirect
 from backend.services.portfolio_service import PortfolioService
 from backend.services.analytics_service import AnalyticsService
 from backend.utils.validators import validate_contact_message
@@ -60,7 +60,11 @@ def download_resume():
         response.headers['Expires'] = '0'
         return response, 404
 
-    # Resolve file path
+    # If resume is stored on Cloudinary (or remote secure URL)
+    if resume.filename.startswith("http://") or resume.filename.startswith("https://"):
+        return redirect(resume.filename)
+
+    # Resolve local file path
     file_rel = resume.filename.lstrip('/')
     file_path = Config.BASE_DIR / file_rel
 

@@ -17,8 +17,8 @@ class PortfolioService:
         settings = SiteSettings.query.first()
         resume = Resume.query.filter_by(is_active=True).order_by(Resume.uploaded_at.desc()).first()
 
-        # Validate physical resume file on disk
-        if resume:
+        # Validate physical resume file on disk (only for local files)
+        if resume and not (resume.filename.startswith("http://") or resume.filename.startswith("https://")):
             file_rel = resume.filename.lstrip('/')
             file_path = Config.BASE_DIR / file_rel
             if not file_path.exists() or not file_path.is_file():
@@ -216,6 +216,8 @@ class PortfolioService:
         if not project:
             return None
 
+        old_image_url = project.image
+
         if 'title' in data: project.title = data['title'].strip()
         if 'category' in data: project.category = data['category'].strip()
         if 'short_description' in data: project.short_description = data['short_description'].strip()
@@ -239,6 +241,12 @@ class PortfolioService:
             description=f"Updated project: {project.title}"
         ))
         db.session.commit()
+
+        # If image was replaced, clean up the old Cloudinary asset if it belonged to Cloudinary
+        if 'image' in data and old_image_url and old_image_url != project.image:
+            from backend.services.upload_service import UploadService
+            UploadService.delete_cloudinary_asset(old_image_url)
+
         return project.to_dict()
 
     @staticmethod
@@ -247,12 +255,19 @@ class PortfolioService:
         if not project:
             return False
         title = project.title
+        old_image_url = project.image
         db.session.delete(project)
         db.session.add(ActivityLog(
             action_type="PROJECT_DELETED",
             description=f"Deleted project: {title}"
         ))
         db.session.commit()
+
+        # Clean up Cloudinary asset if it belonged to Cloudinary
+        if old_image_url:
+            from backend.services.upload_service import UploadService
+            UploadService.delete_cloudinary_asset(old_image_url)
+
         return True
 
     @staticmethod
@@ -394,6 +409,10 @@ class PortfolioService:
     # Resume Management
     @staticmethod
     def set_active_resume(filename: str, original_filename: str, file_size: int):
+        # Identify previously active resume files to clean up on replacement
+        old_resumes = Resume.query.filter_by(is_active=True).all()
+        old_filenames = [r.filename for r in old_resumes if r.filename and r.filename != filename]
+
         # Deactivate previous active resumes
         Resume.query.update({'is_active': False})
         resume = Resume(
@@ -408,12 +427,19 @@ class PortfolioService:
             description=f"Uploaded new resume: {original_filename}"
         ))
         db.session.commit()
+
+        # Clean up old Cloudinary assets only after successful commit
+        from backend.services.upload_service import UploadService
+        for old_fn in old_filenames:
+            if old_fn.startswith("http://") or old_fn.startswith("https://"):
+                UploadService.delete_cloudinary_asset(old_fn)
+
         return resume.to_dict()
 
     @staticmethod
     def get_active_resume():
         resume = Resume.query.filter_by(is_active=True).order_by(Resume.uploaded_at.desc()).first()
-        if resume:
+        if resume and not (resume.filename.startswith("http://") or resume.filename.startswith("https://")):
             file_rel = resume.filename.lstrip('/')
             file_path = Config.BASE_DIR / file_rel
             if not file_path.exists() or not file_path.is_file():
@@ -429,44 +455,32 @@ class PortfolioService:
     def delete_resume(resume_id: int):
         resume = Resume.query.get(resume_id)
         if not resume:
-            # Check if there are any orphaned active records
-            orphans = Resume.query.all()
-            for o in orphans:
-                file_rel = o.filename.lstrip('/')
-                file_path = Config.BASE_DIR / file_rel
-                try:
-                    if file_path.exists() and file_path.is_file():
-                        file_path.unlink()
-                except Exception:
-                    pass
-                db.session.delete(o)
-            db.session.commit()
-            return True, "No resume record found; cleaned up stale state."
+            return True, "No resume record found."
 
         orig_filename = resume.original_filename
-        file_rel = resume.filename.lstrip('/')
-        file_path = Config.BASE_DIR / file_rel
+        filename = resume.filename
 
-        # 1. Delete physical file from storage
-        try:
-            if file_path.exists() and file_path.is_file():
-                file_path.unlink()
-        except Exception as e:
-            return False, f"Failed to delete resume file from storage: {str(e)}"
-
-        # 2. Verify physical file no longer exists
-        if file_path.exists():
-            return False, "Resume file could not be unlinked from storage."
-
-        # 3. Log activity
+        # Remove database record
+        db.session.delete(resume)
         db.session.add(ActivityLog(
             action_type="RESUME_DELETED",
             description=f"Permanently deleted resume: {orig_filename}"
         ))
-
-        # 4. Remove database record
-        db.session.delete(resume)
         db.session.commit()
+
+        # Clean up physical file or Cloudinary asset
+        if filename.startswith("http://") or filename.startswith("https://"):
+            from backend.services.upload_service import UploadService
+            UploadService.delete_cloudinary_asset(filename)
+        else:
+            file_rel = filename.lstrip('/')
+            file_path = Config.BASE_DIR / file_rel
+            try:
+                if file_path.exists() and file_path.is_file():
+                    file_path.unlink()
+            except Exception:
+                pass
+
         return True, "Resume deleted successfully from storage and database."
 
     @staticmethod
@@ -475,14 +489,8 @@ class PortfolioService:
         if not resumes:
             return True, "No active resumes to delete."
 
+        filenames = [r.filename for r in resumes if r.filename]
         for r in resumes:
-            file_rel = r.filename.lstrip('/')
-            file_path = Config.BASE_DIR / file_rel
-            try:
-                if file_path.exists() and file_path.is_file():
-                    file_path.unlink()
-            except Exception:
-                pass
             db.session.delete(r)
 
         db.session.add(ActivityLog(
@@ -490,6 +498,20 @@ class PortfolioService:
             description="Permanently deleted active resume and storage files."
         ))
         db.session.commit()
+
+        from backend.services.upload_service import UploadService
+        for fn in filenames:
+            if fn.startswith("http://") or fn.startswith("https://"):
+                UploadService.delete_cloudinary_asset(fn)
+            else:
+                file_rel = fn.lstrip('/')
+                file_path = Config.BASE_DIR / file_rel
+                try:
+                    if file_path.exists() and file_path.is_file():
+                        file_path.unlink()
+                except Exception:
+                    pass
+
         return True, "All resume files and records removed successfully."
 
     # Messages Management

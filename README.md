@@ -46,6 +46,11 @@ DATABASE_URL=postgresql://user:password@host:5432/dbname
 # Admin account (first-run only, change immediately after first login)
 ADMIN_EMAIL=your.admin.email@example.com
 ADMIN_DEFAULT_PASSWORD=<strong-password-min-12-chars>
+
+# Cloudinary Image Storage (Recommended for Render Free tier)
+CLOUDINARY_CLOUD_NAME=<your-cloudinary-cloud-name>
+CLOUDINARY_API_KEY=<your-cloudinary-api-key>
+CLOUDINARY_API_SECRET=<your-cloudinary-api-secret>
 ```
 
 > **Never put real credentials in `.env.example` or this README.**
